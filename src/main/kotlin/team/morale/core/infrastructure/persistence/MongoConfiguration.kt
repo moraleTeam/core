@@ -1,4 +1,4 @@
-package team.morale.core.adapter.port.persistence
+package team.morale.core.infrastructure.persistence
 
 import com.mongodb.reactivestreams.client.MongoClient
 import com.mongodb.reactivestreams.client.MongoClients
@@ -12,7 +12,7 @@ import org.springframework.data.mongodb.repository.config.EnableReactiveMongoRep
 
 @Configuration
 @EnableReactiveMongoRepositories
-class Configuration : AbstractReactiveMongoConfiguration() {
+class MongoConfiguration : AbstractReactiveMongoConfiguration() {
 
     @Value("\${mongo.database.url}")
     lateinit private var database: String
