@@ -1,6 +1,6 @@
 buildscript {
     ext {
-        kotlinVersion = '1.1.3-2'
+        kotlinVersion = '1.1.4-2'
         springBootVersion = '2.0.0.BUILD-SNAPSHOT'
     }
     repositories {
@@ -23,6 +23,11 @@ apply plugin: 'io.spring.dependency-management'
 
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = 1.8
+
+springBoot {
+    buildInfo()
+}
+
 compileKotlin {
     kotlinOptions.jvmTarget = "1.8"
 }
@@ -32,27 +37,48 @@ compileTestKotlin {
 
 repositories {
     mavenCentral()
+    jcenter()
     maven { url "https://repo.spring.io/snapshot" }
     maven { url "https://repo.spring.io/milestone" }
 }
 
 
 dependencies {
-    compile('org.springframework.boot:spring-boot-starter-actuator')
-    compile('org.springframework.boot:spring-boot-actuator-docs')
-    runtime('org.springframework.boot:spring-boot-devtools')
+    compile("org.springframework.boot:spring-boot-starter-mail")
+    compile("org.springframework.boot:spring-boot-starter-actuator")
+    runtime("org.springframework.boot:spring-boot-devtools")
+    compile("org.springframework.boot:spring-boot-starter-webflux") {
+        exclude module: "hibernate-validator"
+    }
 
-    compile('org.springframework.boot:spring-boot-starter-webflux')
+    compile("org.springframework.data:spring-data-commons")
+    compile("org.springframework.data:spring-data-mongodb")
 
-    compile('org.springframework.data:spring-data-commons')
-    compile('org.springframework.data:spring-data-mongodb')
-    compile('org.mongodb:mongodb-driver-reactivestreams:1.3.0')
-    compile('io.reactivex:rxjava:1.2.1')
-    compile('io.reactivex:rxjava-reactive-streams:1.2.0')
+    compile("org.mongodb:mongodb-driver-reactivestreams:1.3.0")
+    compile("io.reactivex:rxjava:1.2.1")
+    compile("io.reactivex:rxjava-reactive-streams:1.2.0")
 
+    // UTILS
+    compile("org.apache.commons:commons-lang3:3.6")
+
+    // JSON
+    compile("com.fasterxml.jackson.module:jackson-module-kotlin:2.8.9")
+    compile("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.8.8")
+    compile("com.fasterxml.jackson.datatype:jackson-datatype-jdk8:2.8.8")
+    compile("com.fasterxml.jackson.module:jackson-module-kotlin:2.8.8")
+    compile("com.fasterxml.jackson.module:jackson-module-parameter-names:2.8.8")
+
+    // TEST
+    testCompile("org.springframework.boot:spring-boot-starter-test")
+    testCompile("io.projectreactor:reactor-test")
+    testCompile("org.assertj:assertj-core:3.6.2")
+    testCompile("org.springframework.boot:spring-boot-starter-test")
+
+    // KOTLIN
     compile("org.jetbrains.kotlin:kotlin-stdlib-jre8:${kotlinVersion}")
     compile("org.jetbrains.kotlin:kotlin-reflect:${kotlinVersion}")
+}
 
-    testCompile('org.springframework.boot:spring-boot-starter-test')
-    testCompile('io.projectreactor:reactor-test')
+task wrapper(type: Wrapper) {
+    gradleVersion = '4.1'
 }
