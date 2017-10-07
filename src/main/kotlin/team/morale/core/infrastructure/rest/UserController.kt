@@ -11,6 +11,7 @@ import team.morale.core.domain.event.EventPublisher
 import team.morale.core.domain.service.notification.NotificationRequest
 import team.morale.core.domain.service.notification.NotificationService
 import team.morale.core.domain.user.User
+import team.morale.core.domain.user.UserDoesNotExistException
 import team.morale.core.infrastructure.persistence.UserRepository
 import java.util.*
 
@@ -24,7 +25,7 @@ class UserController(val userRepository: UserRepository,
     fun getUserWithId(@PathVariable id: UUID): Mono<User> {
         return userRepository
                 .findById(id)
-                .switchIfEmpty(Mono.error(NoSuchElementException()))
+                .switchIfEmpty(Mono.error(UserDoesNotExistException()))
     }
 
     @PostMapping
@@ -32,7 +33,7 @@ class UserController(val userRepository: UserRepository,
         val user = userRepository
                 .save(User(UUID.randomUUID(), request.email, eventPublisher))
                 .switchIfEmpty(Mono.error(NoSuchElementException()))
-        notificationService.sendNotification(NotificationRequest(request.email, "success"))
+//        notificationService.sendNotification(NotificationRequest(request.email, "success"))
         return user
     }
 

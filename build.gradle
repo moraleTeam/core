@@ -1,12 +1,13 @@
 buildscript {
     ext {
-        kotlinVersion = '1.1.4-2'
-        springBootVersion = '2.0.0.BUILD-SNAPSHOT'
+        kotlinVersion = '1.1.51'
+        springBootVersion = '2.0.0.M3' //switch to M4 when https://github.com/spring-projects/spring-security/issues/4558 is done
     }
     repositories {
         mavenCentral()
         maven { url "https://repo.spring.io/snapshot" }
         maven { url "https://repo.spring.io/milestone" }
+        maven { url "https://repository.jboss.org/nexus/content/repositories/releases" }
     }
     dependencies {
         classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
@@ -40,6 +41,7 @@ repositories {
     jcenter()
     maven { url "https://repo.spring.io/snapshot" }
     maven { url "https://repo.spring.io/milestone" }
+    maven { url "https://repository.jboss.org/nexus/content/repositories/releases" }
 }
 
 
@@ -50,6 +52,7 @@ dependencies {
     compile("org.springframework.boot:spring-boot-starter-webflux") {
         exclude module: "hibernate-validator"
     }
+    compile("org.springframework.boot:spring-boot-starter-tomcat")
 
     compile("org.springframework.data:spring-data-commons")
     compile("org.springframework.data:spring-data-mongodb")
@@ -60,6 +63,9 @@ dependencies {
 
     // UTILS
     compile("org.apache.commons:commons-lang3:3.6")
+    compile 'org.zalando:problem-spring-web:0.22.0'
+    compile 'javax.validation:validation-api:2.0.0.Final'
+    compile 'org.hibernate:hibernate-validator:6.0.2.Final'
 
     // JSON
     compile("com.fasterxml.jackson.module:jackson-module-kotlin:2.8.9")

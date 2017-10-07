@@ -28,4 +28,5 @@ class MongoConfiguration : AbstractReactiveMongoConfiguration() {
     override fun mongoClient(): MongoClient {
         return MongoClients.create(database)
     }
+
 }
